@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Promo_clicks_task</string>
+    <string name="username">Hi Acacia,</string>
+    <string name="desc">Find your Favorite Items</string>
+    <string name="test_price">345 EGp</string>
+    <string name="test_date">End in 3 days</string>
+    <string name="test_views">345</string>
+    <string name="description">Description</string>
+    <string name="test_produect_desc">Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator. You\'ve visited this page many times. Last visit: 10/16/20 Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator. You\'ve visited this page many times. Last visit: 10/16/20</string>
+    <string name="reviews">Reviews</string>
+    <string name="related_products">Related products</string>
+    <string name="test_phone">012-244-957</string>
+    <string name="test_email">enas_muhammad@icloud.com</string>
+    <string name="test_location">6th of October,Mall fo Arabia, gate 23</string>
+    <string name="home">Home</string>
+    <string name="saved">Saved</string>
+    <string name="categories">Categories</string>
+    <string name="more">More</string>
+</resources>

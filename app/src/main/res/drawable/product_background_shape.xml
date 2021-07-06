@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" />
+            <corners
+                android:bottomLeftRadius="5dp"
+                android:bottomRightRadius="5dp"
+                android:topLeftRadius="5dp"
+                android:topRightRadius="5dp" />
+        </shape>
+
+    </item>
+
+    <item
+        android:width="250dp"
+        android:height="250dp"
+        android:gravity="top|end"
+        tools:targetApi="m"
+        tools:ignore="UnusedAttribute">
+
+
+        <shape android:shape="rectangle">
+            <solid android:color="#F6EBF6" />
+            <corners
+                android:bottomLeftRadius="500dp"
+                android:bottomRightRadius="0dp"
+                android:topLeftRadius="0dp"
+                android:topRightRadius="0dp" />
+
+        </shape>
+    </item>
+
+
+    <item
+        android:width="90dp"
+        android:height="90dp"
+        android:gravity="top|center"
+        android:top="150dp"
+        android:right="50dp"
+        tools:ignore="UnusedAttribute"
+        tools:targetApi="m">
+
+        <shape android:shape="oval">
+
+            <solid android:color="#F6EBF6" />
+            <corners
+                android:bottomLeftRadius="50dp"
+                android:bottomRightRadius="50dp"
+                android:topLeftRadius="0dp"
+                android:topRightRadius="0dp" />
+        </shape>
+    </item>
+
+
+</layer-list>
