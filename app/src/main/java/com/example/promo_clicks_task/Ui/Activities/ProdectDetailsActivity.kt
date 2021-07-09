@@ -6,10 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.promo_clicks_task.R
@@ -31,6 +29,10 @@ class ProdectDetailsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnC
     lateinit var binding: ActivityProdectDetailsBinding
     var lat: Double = 666.5
     var lng: Double = 666.5
+    var img1: String = ""
+    var img2: String = ""
+    var img3: String = ""
+    var imgMain: String = ""
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,7 +85,7 @@ class ProdectDetailsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnC
          * @see onClick
          * @see initGalleyResources
          * */
-        initGalleyResources()
+
 
         configurationToolbar()
 
@@ -105,11 +107,19 @@ class ProdectDetailsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnC
         binding.contact.tvLocation.text = model.address
         lat = model.lat.trim().toDouble()
         lng = model.lng.trim().toDouble()
+        img1 = model.Gallary[0].images
+        img2 = model.Gallary[1].images
+        img3 = model.Gallary[2].images
+        imgMain = model.image
+        Picasso
+            .get()
+            .load(model.image)
+            .fit().into(binding.galley.imvProductMain)
         //-- set mapping view data --//
         //- Get the SupportMapFragment and request notification when the map is ready to be used.-//
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
         mapFragment?.getMapAsync(this)
-
+        initGalleyResources()
     }
 
 
@@ -135,26 +145,16 @@ class ProdectDetailsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnC
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.imv_product_1 -> {
-                setDrawableSelected(
-                    binding.galley.imvProduct1,
-                    binding.galley.imvProduct2,
-                    binding.galley.imvProduct3
-                )
+                setImageSelected(img1)
             }
 
             R.id.imv_product_2 -> {
-                setDrawableSelected(
-                    binding.galley.imvProduct2,
-                    binding.galley.imvProduct1,
-                    binding.galley.imvProduct3
-                )
+                setImageSelected(img2)
+
             }
             R.id.imv_product_3 -> {
-                setDrawableSelected(
-                    binding.galley.imvProduct3,
-                    binding.galley.imvProduct2,
-                    binding.galley.imvProduct1
-                )
+                setImageSelected(img3)
+
             }
 
 
@@ -162,21 +162,15 @@ class ProdectDetailsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnC
     }
 
 
-    private fun setDrawableSelected(image: ImageView, second: ImageView, third: ImageView) {
-        image.setImageDrawable(
-            ContextCompat.getDrawable(this, R.drawable.product_select_review_image_shape))
-        second.setImageDrawable(
-            ContextCompat.getDrawable(
-                this,
-                R.drawable.product_select_review_image_non_shape
-            )
-        )
-        third.setImageDrawable(
-            ContextCompat.getDrawable(
-                this,
-                R.drawable.product_select_review_image_non_shape
-            )
-        )
+    private fun setImageSelected(
+        imgUrl: String
+    ) {
+
+        Picasso
+            .get()
+            .load(imgUrl)
+            .placeholder(R.drawable.product_select_review_image_shape)
+            .fit().into(binding.galley.imvProductMain)
 
     }
 
