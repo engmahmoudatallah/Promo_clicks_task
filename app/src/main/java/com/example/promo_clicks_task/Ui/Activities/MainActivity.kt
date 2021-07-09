@@ -10,6 +10,7 @@ import com.example.promo_clicks_task.Ui.Adaptors.HomeAdapter
 import com.example.promo_clicks_task.Ui.Adaptors.SlidersAdapter
 import com.example.promo_clicks_task.databinding.ActivityMainBinding
 import com.example.promo_clicks_task.viewModel.HomeViewModel
+import com.squareup.picasso.Picasso
 
 
 class MainActivity : AppCompatActivity() {
@@ -57,6 +58,12 @@ class MainActivity : AppCompatActivity() {
         })
         viewModel.makeApiCall()
 
+        //-- profile pic --//
+        Picasso
+            .get()
+            .load("https://miro.medium.com/max/1400/0*0fClPmIScV5pTLoE.jpg")
+            .fit()
+            .into(binding.baseInfo.imvProfilePic)
 
     }
 
