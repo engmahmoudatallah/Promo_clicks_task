@@ -1,71 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="8dp"
-    android:layout_marginTop="16dp"
-    android:layout_marginEnd="8dp"
-    android:baselineAligned="false"
-    android:orientation="horizontal"
-    android:weightSum="6">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="model"
+            type="com.example.promo_clicks_task.models.Review" />
 
-    <RelativeLayout
-        android:layout_width="0dp"
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center">
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:weightSum="6">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/user_picture"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:adjustViewBounds="true"
-            android:background="#808080"
-            android:theme="@style/CircularImageView" />
-    </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="3"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tv_username"
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/app_name"
-            android:textStyle="bold"
-            android:theme="@style/tv_title" />
+            android:layout_weight="1"
+            android:gravity="center">
 
-        <TextView
-            android:id="@+id/tv_user_review"
-            android:layout_width="match_parent"
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/user_picture"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:adjustViewBounds="true"
+                app:loadimage="@{model.image}"
+                android:background="#808080"
+                android:theme="@style/CircularImageView" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/desc"
-            android:theme="@style/tv_subtitle2" />
-    </LinearLayout>
+            android:layout_gravity="center"
+            android:layout_weight="3"
+            android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:gravity="center">
+            <TextView
+                android:id="@+id/tv_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{model.name}"
+                android:textStyle="bold"
+                android:theme="@style/tv_title" />
 
-        <RatingBar
-            android:id="@+id/rating_bar"
-            style="@style/Widget.AppCompat.RatingBar.Small"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/tv_user_review"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{model.comment}"
+                android:theme="@style/tv_subtitle2" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="start|center"
-            android:numStars="5"
-            android:rating="3.5" />
-    </RelativeLayout>
+            android:layout_weight="2"
+            android:gravity="center">
+
+            <RatingBar
+                android:id="@+id/rating_bar"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="start|center"
+                android:numStars="5"
+                android:rating="@{model.rate}" />
+        </RelativeLayout>
 
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

@@ -1,6 +1,5 @@
 package com.example.promo_clicks_task.Network
 
-import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -12,13 +11,8 @@ object RetrofitClientServices {
     /**
      * Get Retrofit Instance
      */
-    private fun getRetrofitInstance(): Retrofit {
 
-        val okHttpClient = OkHttpClient.Builder()
-            .readTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
-            .writeTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
-            .connectTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
-            .build()
+    private fun getRetrofitInstance(): Retrofit {
 
         return Retrofit.Builder()
             .baseUrl(Urls.BASE_LINK)

@@ -18,8 +18,8 @@
         android:width="250dp"
         android:height="250dp"
         android:gravity="top|end"
-        tools:targetApi="m"
-        tools:ignore="UnusedAttribute">
+        tools:ignore="UnusedAttribute"
+        tools:targetApi="m">
 
 
         <shape android:shape="rectangle">
@@ -38,8 +38,8 @@
         android:width="90dp"
         android:height="90dp"
         android:gravity="top|center"
-        android:top="150dp"
         android:right="50dp"
+        android:top="150dp"
         tools:ignore="UnusedAttribute"
         tools:targetApi="m">
 

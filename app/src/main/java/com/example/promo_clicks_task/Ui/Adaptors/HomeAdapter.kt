@@ -6,23 +6,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.promo_clicks_task.Listeners.HomeAdapterListener
 import com.example.promo_clicks_task.R
-import com.example.promo_clicks_task.Utils.TestData
+import com.example.promo_clicks_task.models.HotProductPaidStatu
+import com.example.promo_clicks_task.models.Sponsor
+import com.example.promo_clicks_task.models.Vendor
 
-class HomeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class HomeAdapter(
+    val sponsorList: List<Sponsor>,
+    val vendorList : List<Vendor>,
+    val hotProductPaidList : List<HotProductPaidStatu>
 
+) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val SPONSORS: Int = 0
     val VENDORS: Int = 1
     val HOT_SELLER: Int = 2
-
-    init {
-
-
-    }
-
 
     override fun getItemViewType(position: Int): Int {
         if (position == 0) {
@@ -43,20 +45,20 @@ class HomeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             SPONSORS -> {
                 view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.row_recycler_home, parent, false)
-                return SponsorsClass(view)
+                return SponsorsClass(view, sponsorList)
             }
             VENDORS -> {
                 view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.row_recycler_home, parent, false)
-                return VendorsClass(view)
+                return VendorsClass(view,vendorList)
             }
             HOT_SELLER -> {
                 view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.row_recycler_home, parent, false)
-                return HotSellerClass(view)
+                return HotSellerClass(view,hotProductPaidList)
             }
 
-            else -> return SponsorsClass(view)
+            else -> return SponsorsClass(view,sponsorList)
         }
     }
 
@@ -66,45 +68,52 @@ class HomeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         when (viewType) {
             SPONSORS -> {
-                listener = SponsorsClass(holder.itemView)
+                listener = SponsorsClass(holder.itemView, sponsorList)
                 listener.onCreate()
             }
             VENDORS -> {
-                listener = VendorsClass(holder.itemView)
+                listener = VendorsClass(holder.itemView,vendorList)
                 listener.onCreate()
             }
             HOT_SELLER -> {
-                listener = HotSellerClass(holder.itemView)
+                listener = HotSellerClass(holder.itemView,hotProductPaidList)
                 listener.onCreate()
             }
         }
 
     }
 
-    class SponsorsClass(itemView: View) : RecyclerView.ViewHolder(itemView), HomeAdapterListener {
+    class SponsorsClass(itemView: View, listSponsor: List<Sponsor>) :
+        RecyclerView.ViewHolder(itemView), HomeAdapterListener {
+
+        private val sponsers: List<Sponsor> = listSponsor
 
         @SuppressLint("SetTextI18n")
         override fun onCreate() {
             val title: TextView = itemView.findViewById(R.id.tv_title_home)
             val recyclerView: RecyclerView = itemView.findViewById(R.id.rv_home)
-            val testData = TestData()
 
             title.text = "Sponsors"
 
-            recyclerView.setHasFixedSize(true)
-            recyclerView.layoutManager = GridLayoutManager(
-                itemView.context, 1, GridLayoutManager.HORIZONTAL, false
-            )
-            val adapter = SponsorsAdapter(testData.getImagesSponsorsListOffline())
-            recyclerView.adapter = adapter
+            recyclerView.apply{
+                setHasFixedSize(true)
+                layoutManager = LinearLayoutManager(itemView.context,RecyclerView.HORIZONTAL,false
+                )
+                adapter = SponsorsAdapter(sponsers)
+
+            }
+
+
+
 
 
         }
 
     }
 
-    class VendorsClass(itemView: View) : RecyclerView.ViewHolder(itemView), HomeAdapterListener {
+    class VendorsClass(itemView: View, listOfVendor: List<Vendor>) : RecyclerView.ViewHolder(itemView), HomeAdapterListener {
 
+        private val vendors : List<Vendor> = listOfVendor
         @SuppressLint("SetTextI18n")
         override fun onCreate() {
             val title: TextView = itemView.findViewById(R.id.tv_title_home)
@@ -112,20 +121,21 @@ class HomeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
             title.text = "Vendors"
 
-            val testData = TestData()
 
-            recyclerView.setHasFixedSize(true)
-            recyclerView.layoutManager = GridLayoutManager(
-                itemView.context, 1, GridLayoutManager.HORIZONTAL, false
-            )
-            val adapter = VendorsAdapter(testData.getImagesVendorsListOffline())
-            recyclerView.adapter = adapter
+            recyclerView.apply{
+                setHasFixedSize(true)
+                layoutManager = LinearLayoutManager(itemView.context,RecyclerView.HORIZONTAL,false
+                )
+                adapter = VendorsAdapter(vendors)
+
+            }
         }
 
     }
 
-    class HotSellerClass(itemView: View) : RecyclerView.ViewHolder(itemView), HomeAdapterListener {
+    class HotSellerClass(itemView: View, hotProductPaidList: List<HotProductPaidStatu>) : RecyclerView.ViewHolder(itemView), HomeAdapterListener {
 
+        private val products : List<HotProductPaidStatu> = hotProductPaidList
         @SuppressLint("SetTextI18n")
         override fun onCreate() {
             val title: TextView = itemView.findViewById(R.id.tv_title_home)
@@ -133,15 +143,13 @@ class HomeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
             title.text = "Hot Discount"
 
-            val testData = TestData()
+            recyclerView.apply{
+                setHasFixedSize(true)
+//                layoutManager = LinearLayoutManager(itemView.context,RecyclerView.VERTICAL,false)
+                layoutManager = GridLayoutManager(itemView.context,2,GridLayoutManager.VERTICAL,false)
+                adapter = HotDiscountAdapter(products)
 
-            recyclerView.setHasFixedSize(true)
-            recyclerView.layoutManager = GridLayoutManager(
-                itemView.context, 2, GridLayoutManager.VERTICAL, false
-            )
-            val adapter = HotDiscountAdapter(testData.getHotDiscountDataListOffline())
-            recyclerView.adapter = adapter
-
+            }
 
 
 

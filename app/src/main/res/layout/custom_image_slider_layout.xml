@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="model"
+            type="com.example.promo_clicks_task.models.Slider" />
+    </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
         <ImageView
             android:id="@+id/imv_slider"
             android:layout_width="match_parent"
             android:layout_height="170dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            app:loadimage="@{model.image}"
             tools:ignore="ContentDescription" />
     </RelativeLayout>
 

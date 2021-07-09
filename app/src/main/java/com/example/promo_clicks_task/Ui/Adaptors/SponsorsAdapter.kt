@@ -1,31 +1,37 @@
 package com.example.promo_clicks_task.Ui.Adaptors
 
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.promo_clicks_task.Model.SponsorsModel
+import com.example.promo_clicks_task.BR
 import com.example.promo_clicks_task.R
-import com.squareup.picasso.Picasso
+import com.example.promo_clicks_task.databinding.RowSponsorsBinding
+import com.example.promo_clicks_task.models.Sponsor
 
 
-class SponsorsAdapter(private var list: ArrayList<SponsorsModel>) :
-    RecyclerView.Adapter<SponsorsAdapter.InfoClass>() {
+class SponsorsAdapter(val list: List<Sponsor>) :
+    RecyclerView.Adapter<SponsorsAdapter.ViewHolderClass>() {
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InfoClass {
-        var view: View = LayoutInflater.from(parent.context)
-            .inflate(R.layout.row_sponsors, parent, false)
-        return InfoClass(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderClass {
+        val binding: RowSponsorsBinding =
+            DataBindingUtil.inflate(
+                LayoutInflater.from(parent.context),
+                R.layout.row_sponsors,
+                parent,
+                false
+            )
+        return ViewHolderClass(binding)
 
     }
 
-    override fun onBindViewHolder(holder: InfoClass, position: Int) {
-        val sliderModel: SponsorsModel = list[position]
 
-        Picasso.get().load(sliderModel.pic_url).fit().into(holder.picture)
+    override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
+        val model = list[position]
 
+        holder.bind(model)
     }
 
 
@@ -33,12 +39,17 @@ class SponsorsAdapter(private var list: ArrayList<SponsorsModel>) :
         return list.size
     }
 
-    class InfoClass(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        var picture: ImageView = itemView.findViewById(R.id.imv_sponsor_icon)
+    class ViewHolderClass(binding: RowSponsorsBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        var rowSponsorsBinding: RowSponsorsBinding = binding
+        fun bind(obj: Any?) {
+            rowSponsorsBinding.setVariable(BR.model, obj)
+            rowSponsorsBinding.executePendingBindings()
+        }
 
 
     }
-
 
 }

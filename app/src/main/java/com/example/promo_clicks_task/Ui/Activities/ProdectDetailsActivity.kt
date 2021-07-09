@@ -1,34 +1,82 @@
 package com.example.promo_clicks_task.Ui.Activities
 
 import android.annotation.SuppressLint
+import android.graphics.Paint
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.promo_clicks_task.R
 import com.example.promo_clicks_task.Ui.Adaptors.ProductReviewAdapter
 import com.example.promo_clicks_task.Ui.Adaptors.RelatedProductsAdapter
-import com.example.promo_clicks_task.Utils.TestData
 import com.example.promo_clicks_task.databinding.ActivityProdectDetailsBinding
+import com.example.promo_clicks_task.models.Products
+import com.example.promo_clicks_task.viewModel.ProductsViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.squareup.picasso.Picasso
 
 class ProdectDetailsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListener {
 
     lateinit var binding: ActivityProdectDetailsBinding
+    var lat: Double = 666.5
+    var lng: Double = 666.5
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProdectDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+        val viewModel = ViewModelProvider(this).get(ProductsViewModel::class.java)
+
+        viewModel.listData.observe(this, {
+            if (it.success) {
+                setInfoData(it.data.Products)
+                binding.rvReviews.rvHome.apply {
+                    binding.rvReviews.tvTitleHome.text = "Reviews"
+                    setHasFixedSize(true)
+                    layoutManager = GridLayoutManager(
+                        this@ProdectDetailsActivity,
+                        1,
+                        GridLayoutManager.VERTICAL,
+                        false
+                    )
+                    adapter = ProductReviewAdapter(it.data.Products.review)
+                }
+
+                binding.rvRelatedProducts.rvHome.apply {
+                    binding.rvRelatedProducts.tvTitleHome.text = "Related products"
+                    setHasFixedSize(true)
+                    layoutManager = GridLayoutManager(
+                        this@ProdectDetailsActivity,
+                        1,
+                        GridLayoutManager.HORIZONTAL,
+                        false
+
+                    )
+                    adapter = RelatedProductsAdapter(it.data.Related_product)
+                }
+
+                Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+
+            } else {
+                Toast.makeText(this, "error to featch data", Toast.LENGTH_LONG).show()
+            }
+        })
+        viewModel.makeApiCall()
+
 
         /**
          * This make initializes for the galley images View to work on OnCLick Method
@@ -39,61 +87,44 @@ class ProdectDetailsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnC
 
         configurationToolbar()
 
-        /**
-         * set reviews data list
-         *  @see reviewsData
-         * */
-        reviewsData()
 
-        /**
-         * set related product data list
-         *  @see relatedProductsData
-         * */
-        relatedProductsData()
+    }
 
-
+    fun setInfoData(model: Products) {
+        Picasso.get().load(model.Gallary[0].images).fit().into(binding.galley.imvProduct1)
+        Picasso.get().load(model.Gallary[1].images).fit().into(binding.galley.imvProduct2)
+        Picasso.get().load(model.Gallary[2].images).fit().into(binding.galley.imvProduct3)
+        binding.info.tvOldPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+        binding.info.tvRealPrice.text = model.new_price.toString()
+        binding.info.tvOldPrice.text = model.old_price.toString()
+        binding.info.tvDate.text = model.exp_date
+        binding.info.tvViews.text = model.view.toString()
+        binding.info.tvDescription.text = model.description
+        binding.contact.tvEmail.text = model.email
+        binding.contact.tvPhone.text = model.mobile
+        binding.contact.tvLocation.text = model.address
+        lat = model.lat.trim().toDouble()
+        lng = model.lng.trim().toDouble()
         //-- set mapping view data --//
         //- Get the SupportMapFragment and request notification when the map is ready to be used.-//
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
         mapFragment?.getMapAsync(this)
 
-
     }
 
-    override fun onMapReady(p0: GoogleMap) {
-        val latLan = LatLng(24.807803359228078, 46.63013259245146)
-        p0.addMarker(
+
+    override fun onMapReady(map: GoogleMap) {
+        Log.w("test_Data_2", "lat : $lat , lng $lng")
+        val latLan = LatLng(lat, lng)
+        map.addMarker(
             MarkerOptions()
                 .position(latLan)
                 .title("Mall of Arabia")
-
         )
-        p0.moveCamera(CameraUpdateFactory.newLatLng(latLan))
-        p0.maxZoomLevel
+        map.moveCamera(CameraUpdateFactory.newLatLng(latLan))
+
     }
 
-
-    @SuppressLint("SetTextI18n")
-    fun reviewsData() {
-        val testData = TestData()
-        binding.rvReviews.tvTitleHome.text = "Reviews"
-        binding.rvReviews.rvHome.setHasFixedSize(true)
-        binding.rvReviews.rvHome.layoutManager =
-            GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false)
-        val adapter = ProductReviewAdapter(testData.getProductReviewDetailsData())
-        binding.rvReviews.rvHome.adapter = adapter
-    }
-
-    @SuppressLint("SetTextI18n")
-    fun relatedProductsData() {
-        val testData = TestData()
-        binding.rvRelatedProducts.tvTitleHome.text = "Related products"
-        binding.rvRelatedProducts.rvHome.setHasFixedSize(true)
-        binding.rvRelatedProducts.rvHome.layoutManager =
-            GridLayoutManager(this, 1, GridLayoutManager.HORIZONTAL, false)
-        val adapter2 = RelatedProductsAdapter(testData.getRelatedProductsDataList())
-        binding.rvRelatedProducts.rvHome.adapter = adapter2
-    }
 
     fun initGalleyResources() {
         binding.galley.imvProduct1.setOnClickListener(this)
@@ -104,13 +135,13 @@ class ProdectDetailsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnC
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.imv_product_1 -> {
-
                 setDrawableSelected(
                     binding.galley.imvProduct1,
                     binding.galley.imvProduct2,
                     binding.galley.imvProduct3
                 )
             }
+
             R.id.imv_product_2 -> {
                 setDrawableSelected(
                     binding.galley.imvProduct2,
@@ -131,13 +162,9 @@ class ProdectDetailsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnC
     }
 
 
-   private fun setDrawableSelected(image: ImageView, second: ImageView, third: ImageView) {
+    private fun setDrawableSelected(image: ImageView, second: ImageView, third: ImageView) {
         image.setImageDrawable(
-            ContextCompat.getDrawable(
-                this,
-                R.drawable.product_select_review_image_shape
-            )
-        )
+            ContextCompat.getDrawable(this, R.drawable.product_select_review_image_shape))
         second.setImageDrawable(
             ContextCompat.getDrawable(
                 this,

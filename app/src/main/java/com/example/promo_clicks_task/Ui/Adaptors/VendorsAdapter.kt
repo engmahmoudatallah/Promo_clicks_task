@@ -1,31 +1,35 @@
 package com.example.promo_clicks_task.Ui.Adaptors
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.promo_clicks_task.Model.VendorsModel
+import com.example.promo_clicks_task.BR
 import com.example.promo_clicks_task.R
-import com.squareup.picasso.Picasso
+import com.example.promo_clicks_task.databinding.RowVendorsBinding
+import com.example.promo_clicks_task.models.Vendor
 
 
-class VendorsAdapter(private var list: ArrayList<VendorsModel>) :
-    RecyclerView.Adapter<VendorsAdapter.InfoClass>() {
+class VendorsAdapter(private var list: List<Vendor>) :
+    RecyclerView.Adapter<VendorsAdapter.ViewHolderClass>() {
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InfoClass {
-        var view: View = LayoutInflater.from(parent.context)
-            .inflate(R.layout.row_vendors, parent, false)
-        return InfoClass(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderClass {
+        val binding: RowVendorsBinding =
+            DataBindingUtil.inflate(
+                LayoutInflater.from(parent.context),
+                R.layout.row_vendors,
+                parent,
+                false
+            )
+        return ViewHolderClass(binding)
 
     }
 
-    override fun onBindViewHolder(holder: InfoClass, position: Int) {
-        val sliderModel: VendorsModel = list[position]
 
-        Picasso.get().load(sliderModel.pic_url).fit().into(holder.picture)
-
+    override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
+        val model = list[position]
+        holder.bind(model)
     }
 
 
@@ -33,9 +37,15 @@ class VendorsAdapter(private var list: ArrayList<VendorsModel>) :
         return list.size
     }
 
-    class InfoClass(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        var picture: ImageView = itemView.findViewById(R.id.imv_vendor_icon)
+    class ViewHolderClass(binding: RowVendorsBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        var rowVendorsBinding: RowVendorsBinding = binding
+        fun bind(obj: Any?) {
+            rowVendorsBinding.setVariable(BR.model, obj)
+            rowVendorsBinding.executePendingBindings()
+        }
 
 
     }

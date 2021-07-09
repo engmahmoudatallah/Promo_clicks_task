@@ -1,13 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/imv_vendor_icon"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+    <data>
+
+        <variable
+            name="model"
+            type="com.example.promo_clicks_task.models.Vendor" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        tools:ignore="ContentDescription" />
-</RelativeLayout>
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:loadimage="@{model.image}"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image"
+            android:gravity="center"
+            android:text="@{model.name}"
+            tools:ignore="ContentDescription" />
+    </RelativeLayout>
+</layout>

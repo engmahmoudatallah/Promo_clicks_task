@@ -3,17 +3,15 @@ package com.example.promo_clicks_task.Ui.Adaptors
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.RecyclerView
-import com.example.promo_clicks_task.Listeners.OnClickItem
-import com.example.promo_clicks_task.Model.SliderModel
+import com.example.promo_clicks_task.BR
 import com.example.promo_clicks_task.R
 import com.example.promo_clicks_task.databinding.CustomImageSliderLayoutBinding
+import com.example.promo_clicks_task.models.Slider
 
 
-class SlidersAdapter(var list: ArrayList<SliderModel>) :
-    RecyclerView.Adapter<SlidersAdapter.ViewHolderClass>(),
-    OnClickItem {
+class SlidersAdapter(val list: List<Slider>) :
+    RecyclerView.Adapter<SlidersAdapter.ViewHolderClass>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderClass {
@@ -31,32 +29,25 @@ class SlidersAdapter(var list: ArrayList<SliderModel>) :
 
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
         val model = list[position]
-
-        bindingImage(holder.itemRowRvReviewsBinding.imvSlider,R.drawable.image_offer)
-
         holder.bind(model)
-        holder.itemRowRvReviewsBinding.apply {
-            //itemClickListener = this@SlidersAdapter
-        }
     }
+
 
     override fun getItemCount(): Int {
-        return if (list.size > 0) list.size else 0
+        return list.size
     }
 
 
-     class ViewHolderClass(binding: CustomImageSliderLayoutBinding) :
+    class ViewHolderClass(binding: CustomImageSliderLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        var itemRowRvReviewsBinding: CustomImageSliderLayoutBinding = binding
+        var itemCustomImageSliderLayoutBinding: CustomImageSliderLayoutBinding = binding
         fun bind(obj: Any?) {
-            itemRowRvReviewsBinding.setVariable(BR.mainViewModel, obj)
-            itemRowRvReviewsBinding.executePendingBindings()
+            itemCustomImageSliderLayoutBinding.setVariable(BR.model, obj)
+            itemCustomImageSliderLayoutBinding.executePendingBindings()
         }
-    }
 
-    override fun onCLickItem() {
-        TODO("Not yet implemented")
+
     }
 
 

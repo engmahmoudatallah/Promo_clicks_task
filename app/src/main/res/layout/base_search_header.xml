@@ -39,8 +39,8 @@
             android:layout_height="match_parent"
             android:background="@drawable/search_background_shape"
             android:hint="Search.."
-            android:textColor="@color/black"
             android:inputType="text"
+            android:textColor="@color/black"
             android:textColorHint="#DCDCDC"
             tools:ignore="HardcodedText" />
 

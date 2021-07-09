@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="model"
-            type="com.example.promo_clicks_task.viewModel.SimpleModel" />
-    </data>
 
     <RelativeLayout
         android:layout_width="match_parent"

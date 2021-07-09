@@ -18,8 +18,8 @@
 
     <item
         android:height="220dp"
-        tools:targetApi="m"
-        tools:ignore="UnusedAttribute">
+        tools:ignore="UnusedAttribute"
+        tools:targetApi="m">
         <shape android:shape="rectangle">
             <solid android:color="#F6EBF6" />
             <corners

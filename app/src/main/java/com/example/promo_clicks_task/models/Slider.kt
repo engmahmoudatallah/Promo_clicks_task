@@ -1,4 +1,4 @@
-package com.example.promo_clicks_task.Model.retrofitModels
+package com.example.promo_clicks_task.models
 
 data class Slider(
     val id: Int,
